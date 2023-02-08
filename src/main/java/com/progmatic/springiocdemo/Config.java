@@ -10,9 +10,9 @@ import org.springframework.core.env.Environment;
 @Configuration
 public class Config {
 
-    private Environment env;
+    private final Environment env;
 
-    @Autowired
+//    @Autowired
     public Config(Environment env) {
         this.env = env;
     }
@@ -28,12 +28,12 @@ public class Config {
         return new ImplC2();
     }
 
-//    @Bean
-//    public Impl getService() {
-//        String e = env.getProperty("app.env", "nope");
-//        return switch (e) {
-//            case "p" -> new ImplC1();
-//            default -> new ImplC2();
-//        };
-//    }
+    @Bean
+    public Impl getService() {
+        String e = env.getProperty("app.env", "nope");
+        return switch (e) {
+            case "production" -> new ImplC1();
+            default -> new ImplC2();
+        };
+    }
 }
